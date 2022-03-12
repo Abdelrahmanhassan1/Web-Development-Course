@@ -1,17 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" type="image/jpg" href="/images/clipboard.png" />
-    <link rel="stylesheet" href="/css/styles.css" />
-    <title>To Do List</title>
-  </head>
-  <body>
-    <h1>
-      <span>It's <%= OurCurrentDay %>!</span> <br />
-      <span><%= CurrentDate %></span>
-    </h1>
-  </body>
-</html>
+<%- include("header") -%>
+
+    <!-- Angela HTML -->
+    <div class="box" id="heading">
+      <h1><%= ListTitle %></h1>
+    </div>
+
+    <div class="box">
+      <ul>
+        <% for(var i = 0; i < tasksAdded.length; i++){ %>
+        <div class="item">
+          <input type="checkbox" />
+          <p><%= tasksAdded[i] %></p>
+        </div>
+
+        <% } %>
+      </ul>
+
+      <form action="/" method="post">
+        <input
+          type="text"
+          name="new_value"
+          placeholder="Add New Task"
+          autocomplete="off"
+        />
+        <button type="submit" name="list" value=<%=ListTitle%> >+</button>
+      </form>
+    </div>
+    
+    <%- include("footer") -%>

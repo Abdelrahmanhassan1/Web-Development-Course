@@ -1,28 +1,67 @@
 const express = require("express");
+
 const body_parser = require("body-parser");
+
 const port = 3000;
+
 const app = express();
 
+var new_tasks = [];
+var work_tasks = [];
 app.set("view engine", "ejs");
 
 app.use(express.static(__dirname + "/public"));
 
+app.use(body_parser.urlencoded({ extended: true }));
+
 app.get("/", function (req, res) {
   var today = new Date();
+
   var current_day = today.getUTCDay();
-  console.log(today);
+  // console.log(today);
+
   var options_1 = {
     weekday: "long",
-  };
-  var options_2 = {
     day: "numeric",
     month: "long",
   };
 
   var day = today.toLocaleDateString("en-US", options_1);
-  var date = today.toLocaleDateString("en-US", options_2);
-  res.render("list", { OurCurrentDay: day, CurrentDate: date });
+
+  res.render("list", {
+    ListTitle: day,
+    tasksAdded: new_tasks,
+  });
 });
+
+app.post("/", function (req, res) {
+  var new_task = req.body.new_value;
+
+  // console.log(new_task);
+  
+  // this code can't be written in post request! okay move it to the get request and redirect from here
+  // res.render("list", { taskAdded: new_task });
+  if (new_task !== "") {
+    if(req.body.list === "Work"){
+      work_tasks.push(new_task);
+      res.redirect("/work");
+  
+    }else{
+      new_tasks.push(new_task);
+      res.redirect("/");
+    }
+  }
+  
+});
+
+app.get("/work", function (req, res) {
+  res.render("list", { ListTitle: "Work List", tasksAdded: work_tasks });
+});
+
+app.get("/about", function (req, res) {
+  res.render("about");
+});
+
 
 app.listen(port || process.env.PORT, function () {
   console.log("Now I am Listening..");
