@@ -2,6 +2,8 @@ const express = require("express");
 
 const body_parser = require("body-parser");
 
+const today = require(__dirname + "/date.js")
+
 const port = 3000;
 
 const app = express();
@@ -15,18 +17,8 @@ app.use(express.static(__dirname + "/public"));
 app.use(body_parser.urlencoded({ extended: true }));
 
 app.get("/", function (req, res) {
-  var today = new Date();
-
-  var current_day = today.getUTCDay();
-  // console.log(today);
-
-  var options_1 = {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-  };
-
-  var day = today.toLocaleDateString("en-US", options_1);
+  
+  let day = today.getDate();
 
   res.render("list", {
     ListTitle: day,
