@@ -3,7 +3,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
-
+const _ = require("lodash")
 var posts_to_publish = [];
 
 const homeStartingContent =
@@ -47,6 +47,22 @@ app.post("/compose", function (req, res) {
   posts_to_publish.push(post);
   res.redirect("/");
 });
+
+app.get("/posts/:post_name", function (req, res) {
+  const request_title = _.lowerCase(req.params.post_name);
+  
+  posts_to_publish.forEach(post =>{
+    const stored_title = _.lowerCase(post.title);
+    if(stored_title === request_title){
+      res.render("post", {
+        title: _.upperFirst(post.title),
+        content: post.content
+      });
+    }
+  })
+});
+
+
 app.listen(3000, function () {
   console.log("Server started on port 3000");
 });
