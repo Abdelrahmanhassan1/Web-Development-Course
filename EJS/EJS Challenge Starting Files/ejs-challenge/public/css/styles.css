@@ -20,10 +20,11 @@
 }
 
 .footer {
-  position: absolute;
-  text-align: center;
+  position: fixed;
+  /* padding: 10px 10px 0px 10px; */
   bottom: 0;
   width: 100%;
+  text-align: center;
   height: 60px;
   background-color: #1abc9c;
 }
